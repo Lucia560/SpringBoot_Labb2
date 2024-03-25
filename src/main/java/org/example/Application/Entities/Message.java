@@ -1,7 +1,6 @@
-package Entities;
+package org.example.Application.Entities;
 
 
-import Entities.User;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

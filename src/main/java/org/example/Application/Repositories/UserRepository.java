@@ -1,6 +1,6 @@
-package Repositories;
+package org.example.Application.Repositories;
 
-import Entities.User;
+import org.example.Application.Entities.User;
 import org.springframework.data.repository.ListCrudRepository;
 import java.util.List;
 import java.util.UUID;

@@ -1,6 +1,6 @@
-package Repositories;
+package org.example.Application.Repositories;
 
-import Entities.Message;
+import org.example.Application.Entities.Message;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.ArrayList;

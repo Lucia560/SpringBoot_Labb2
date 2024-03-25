@@ -1,4 +1,4 @@
-package Entities;
+package org.example.Application.Entities;
 
 import jakarta.persistence.*;
 
