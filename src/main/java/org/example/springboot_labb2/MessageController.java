@@ -43,4 +43,13 @@ public class MessageController {
         messageRepository.save(message);
         return ResponseEntity.ok(message);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+        if (!messageRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        messageRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
