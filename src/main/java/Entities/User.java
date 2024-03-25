@@ -1,6 +1,7 @@
-package org.example.springboot_labb2;
+package Entities;
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,9 +21,6 @@ public class User {
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userid")
     private List<Message> messages = new ArrayList<>();
-
-
-
 
     public UUID getId() {
         return id;

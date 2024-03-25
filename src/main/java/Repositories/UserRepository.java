@@ -1,5 +1,6 @@
-package org.example.springboot_labb2;
+package Repositories;
 
+import Entities.User;
 import org.springframework.data.repository.ListCrudRepository;
 import java.util.List;
 import java.util.UUID;
