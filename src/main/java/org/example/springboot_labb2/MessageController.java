@@ -33,4 +33,14 @@ public class MessageController {
         Message savedMessage = messageRepository.save(message);
         return ResponseEntity.created(URI.create("/api/messages/" + savedMessage.getId())).body(savedMessage);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestBody Message message) {
+        if (!messageRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        message.setId(id);
+        messageRepository.save(message);
+        return ResponseEntity.ok(message);
+    }
 }
