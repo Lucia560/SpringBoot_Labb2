@@ -28,4 +28,10 @@ public class UserController {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);
+    }
 }
