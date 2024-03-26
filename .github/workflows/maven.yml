@@ -11,6 +11,25 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    # Define service containers for the job
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: verysecret
+          MYSQL_DATABASE: mydatabase
+          MYSQL_USER: myuser
+          MYSQL_PASSWORD: secret
+        ports:
+          - 3306:3306
+        # Set health checks to wait until mysql is ready before starting the job
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
