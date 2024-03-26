@@ -1,5 +1,7 @@
-package org.example.springboot_labb2;
+package org.example.springboot_labb2.controller;
 
+import org.example.springboot_labb2.repository.UserRepository;
+import org.example.springboot_labb2.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

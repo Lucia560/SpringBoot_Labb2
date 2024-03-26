@@ -1,4 +1,4 @@
-package org.example.springboot_labb2;
+package org.example.springboot_labb2.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

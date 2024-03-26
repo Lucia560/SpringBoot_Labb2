@@ -1,5 +1,8 @@
-package org.example.springboot_labb2;
+package org.example.springboot_labb2.service;
 
+import org.example.springboot_labb2.exception.ResourceNotFoundException;
+import org.example.springboot_labb2.entity.Message;
+import org.example.springboot_labb2.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

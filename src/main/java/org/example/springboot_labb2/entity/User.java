@@ -1,6 +1,8 @@
-package org.example.springboot_labb2;
+package org.example.springboot_labb2.entity;
 
 import jakarta.persistence.*;
+import org.example.springboot_labb2.entity.Message;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
