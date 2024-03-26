@@ -1,4 +1,4 @@
-package org.example.springboot_labb2.ApplicationListener;
+package org.example.springboot_labb2.StartUpApplicationListener;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
