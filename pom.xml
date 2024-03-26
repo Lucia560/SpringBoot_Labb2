@@ -15,8 +15,6 @@
     <description>SpringBoot_Labb2</description>
     <properties>
         <java.version>21</java.version>
-        <sonar.organization>lucia560</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
