@@ -1,5 +1,6 @@
 package org.example.springboot_labb2;
 
+import org.example.springboot_labb2.Exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MessageService {
             message.setId(id);
             return messageRepository.save(message);
         }
-        return null;
+        throw new ResourceNotFoundException("Message with id " + id + " not found");
     }
 
     public void deleteMessage(Long id) {

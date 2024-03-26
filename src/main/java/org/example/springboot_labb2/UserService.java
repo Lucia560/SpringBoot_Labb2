@@ -1,5 +1,6 @@
 package org.example.springboot_labb2;
 
+import org.example.springboot_labb2.Exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserService {
             user.setId(id);
             return userRepository.save(user);
         }
-        return null;
+        throw new ResourceNotFoundException("User with id " + id + " not found");
     }
 
     public void deleteUser(UUID id) {
