@@ -1,7 +1,6 @@
 package org.example.springboot_labb2.entity;
 
 import jakarta.persistence.*;
-import org.example.springboot_labb2.entity.Message;
 
 import java.util.ArrayList;
 import java.util.List;
