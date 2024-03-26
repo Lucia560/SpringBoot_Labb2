@@ -6,5 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListHolder {
+
+    private MessageListHolder() {
+    }
+
     static List<Message> listOfMessages = new ArrayList<>();
 }
