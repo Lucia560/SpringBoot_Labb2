@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid", updatable = false,nullable = false)
-    private UUID id;
+    private Long id;
     private String username;
     private String role;
     private String nameSurname;
@@ -22,14 +21,11 @@ public class User {
     @JoinColumn(name = "userid")
     private List<Message> messages = new ArrayList<>();
 
-
-
-
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
