@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @Component
 public class StartupRunner implements ApplicationRunner {
 
-    private static final Logger LOG = Logger.getLogger(ApplicationRunner.class.getName());
+    private static final Logger LOG = Logger.getLogger(StartupRunner.class.getName());
 
     private final UserRepository userRepository;
 
