@@ -18,7 +18,6 @@ public class StartupRunner implements ApplicationRunner {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public StartupRunner(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
