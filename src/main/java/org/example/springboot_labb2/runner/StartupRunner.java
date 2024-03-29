@@ -4,6 +4,7 @@ import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,16 +12,17 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Component
-public class ApplicationRunner implements org.springframework.boot.ApplicationRunner {
+public class StartupRunner implements ApplicationRunner {
 
     private static final Logger LOG = Logger.getLogger(ApplicationRunner.class.getName());
 
     private final UserRepository userRepository;
 
     @Autowired
-    public ApplicationRunner(UserRepository userRepository) {
+    public StartupRunner(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
