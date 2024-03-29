@@ -23,19 +23,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Docker Compose
-        run: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+
 
       - name: Start Docker Compose services
         run: docker-compose up -d
-
-      - name: Wait for MySQL
-        run: |
-          until docker-compose exec -T mysql mysqladmin --user=myuser --password=secret --host="127.0.0.1" ping; do
-            echo 'Waiting for MySQL to become ready...'
-            sleep 5
-          done
-          echo 'MySQL is ready!'
 
       - name: Flyway Migration
         run: mvn -B flyway:migrate -Dflyway.url=jdbc:mysql://mysql:3306/mydatabase -Dflyway.user=myuser -Dflyway.password=secret
@@ -45,7 +36,3 @@ jobs:
 
       - name: Test with Maven
         run: mvn -B test --no-transfer-progress
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydatabase
-          SPRING_DATASOURCE_USERNAME: myuser
-          SPRING_DATASOURCE_PASSWORD: secret
