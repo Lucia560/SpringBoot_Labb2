@@ -34,7 +34,6 @@ public class UserServiceTest {
         user.setId(1L);
         user.setUsername("testUser");
         user.setRole("USER");
-        // set other fields...
     }
 
     @Test
