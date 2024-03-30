@@ -17,7 +17,7 @@ public class Message {
     private String title;
     private String content;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST) // vi kanske måste ta bort detta
     @JoinColumn(name = "user_id")
     private User user;
 
