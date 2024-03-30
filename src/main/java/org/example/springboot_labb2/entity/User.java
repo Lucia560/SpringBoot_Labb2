@@ -68,4 +68,10 @@ public class User {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+
+    public void setMessages(List<Message> list) {
+    }
+   public List<Message> getMessages() {
+       return messages ;
+  }
 }
