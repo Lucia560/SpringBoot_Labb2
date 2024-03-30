@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         "spring.datasource.url=jdbc:tc:mysql:8.3.0:///mydatabase"
 })
 
-public class UserPersistenceTests {
+ class UserPersistenceTests {
 
 
     @Autowired
@@ -39,8 +39,7 @@ public class UserPersistenceTests {
         userRepository.save(testuser);
         List<User> resultList = userRepository.findByUsername(testuser.getUsername());
 
-        assertThat(resultList).isNotNull();
-        assertThat(resultList).isNotEmpty();
+        assertThat(resultList).isNotNull().isNotEmpty();
         User foundUser = resultList.get(0);
 
 
@@ -54,7 +53,7 @@ public class UserPersistenceTests {
     }
 
     @Test
-    public void testFindAllByRole() {
+     void testFindAllByRole() {
         var adminUser = new User();
         adminUser.setUsername("John");
         adminUser.setRole("ADMIN");
@@ -83,9 +82,8 @@ public class UserPersistenceTests {
         List<User> foundUsers = userRepository.findAllByRole("USER");
 
 
-        assertThat(foundUsers).isNotNull();
-        assertThat(foundUsers).hasSize(2);
-        assertThat(foundUsers).extracting(User::getUsername).containsExactlyInAnyOrder("Anna", "Normie");
+        assertThat(foundUsers).isNotNull().hasSize(2)
+                .extracting(User::getUsername).containsExactlyInAnyOrder("Anna", "Normie");
         assertThat(foundUsers).extracting(User::getRole).containsOnly("USER");
     }
 

@@ -69,9 +69,9 @@ public class User {
         this.profilePictureUrl = profilePictureUrl;
     }
 
-    public void setMessages(List<Message> list) {
-    }
-   public List<Message> getMessages() {
-       return messages ;
-  }
+//    public void setMessages(List<Message> list) {
+//    }
+//   public List<Message> getMessages() {
+//       return messages ;
+//  }
 }
