@@ -13,12 +13,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
 import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -52,8 +53,7 @@ public class UserServiceTest {
 
         Optional<User> foundUser = userService.getUserById(1L);
 
-        assertThat(foundUser).isPresent();
-        assertThat(foundUser.get()).isEqualTo(user);
+        assertThat(foundUser).contains(user);
     }
 
     @Test
@@ -81,9 +81,16 @@ public class UserServiceTest {
         Long nonExistingId = 2L;
         when(userRepository.existsById(nonExistingId)).thenReturn(false);
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            userService.updateUser(nonExistingId, new User());
-        });
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> attemptUpdateUser(nonExistingId));
+
+        String expectedMessage = "User with id " + nonExistingId + " not found";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    private void attemptUpdateUser(Long id) {
+        userService.updateUser(id, new User());
     }
 
     @Test
