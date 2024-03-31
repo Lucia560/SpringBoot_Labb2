@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserRepository extends ListCrudRepository <User,Long> {
     List<User> findByUsername(String username);
-    @Override
+
     @EntityGraph(attributePaths = {"messages"})
-    List<User> findAll();
+    List<User> findAllByRole(String role);
 }
