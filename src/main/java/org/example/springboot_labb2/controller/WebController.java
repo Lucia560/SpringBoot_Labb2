@@ -3,32 +3,39 @@ package org.example.springboot_labb2.controller;
 
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.UserRepository;
+import org.example.springboot_labb2.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/web")
 public class WebController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public WebController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public WebController( UserService userService) {
+        this.userService = userService;
     }
 
+    //Users
     @GetMapping("users")
     public String users(Model model){
-        var users= userRepository.findAll().stream().map(User::getUsername).toList();
-        model.addAttribute("usersNames",users); //add users count?
+        var users= userService.getAllUsers().stream().map(User::getUsername).toList();
+        model.addAttribute("usersNames",users);
         return "users";
     }
 
-   // show static welcome page
-   // show log in /register
-   //show messages , write new , edit
-   //show user profil, edit , delete ---admin view /user view
+    @GetMapping("/users/{username}/edit")
+    public String editUserProfile(@PathVariable String username, Model model) {
+        User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+        return "edit-user-profile";
+    }
+
+
 
 
 

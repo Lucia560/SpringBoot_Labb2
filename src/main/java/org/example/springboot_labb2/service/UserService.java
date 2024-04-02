@@ -4,6 +4,8 @@ import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +41,38 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User findByUsername(String username) {
+        List<User> users = userRepository.findByUsername(username);
+        if (!users.isEmpty()) {
+            return users.get(0);
+        } else {
+            throw new ResourceNotFoundException("User with username " + username + " not found");
+        }
+    }
+
+
+    public User updateUserByUsername(String oldUsername, User updatedUserDetails) {
+        List<User> users = userRepository.findByUsername(oldUsername);
+        if (users.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with username: " + oldUsername);
+        }
+        User user = users.get(0);
+
+        if (!user.getUsername().equals(updatedUserDetails.getUsername())) {
+            List<User> userWithNewUsername = userRepository.findByUsername(updatedUserDetails.getUsername());
+            if (!userWithNewUsername.isEmpty()) {
+                throw new IllegalArgumentException("Username " + updatedUserDetails.getUsername() + " is already taken");
+            }
+        }
+
+        user.setUsername(updatedUserDetails.getUsername());
+        user.setNameSurname(updatedUserDetails.getNameSurname());
+        user.setEmail(updatedUserDetails.getEmail());
+        user.setProfilePictureUrl(updatedUserDetails.getProfilePictureUrl());
+        return userRepository.save(user);
+    }
+
+
+
 }
