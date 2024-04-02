@@ -17,6 +17,7 @@ public class Message {
     private Long id;
     private String title;
     private String content;
+    private boolean statusPrivate= false;
 
     @ManyToOne(cascade = CascadeType.PERSIST) // vi kanske måste ta bort detta
     @JoinColumn(name = "user_id")
@@ -60,6 +61,19 @@ public class Message {
 
    public void setUser(User user) {
         this.user=user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+
+    public boolean isStatusPrivate() {
+        return statusPrivate;
+    }
+
+    public void setStatusPrivate(boolean statusPrivate) {
+        this.statusPrivate = statusPrivate;
     }
 
 

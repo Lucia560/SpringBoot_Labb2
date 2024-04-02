@@ -2,6 +2,7 @@ package org.example.springboot_labb2.controller;
 
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.entity.Message;
+import org.example.springboot_labb2.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class MessageController {
 
     private final MessageRepository messageRepository;
+    private final MessageService messageService;
 
-    public MessageController(MessageRepository messageRepository) {
+    public MessageController(MessageRepository messageRepository,MessageService messageService) {
         this.messageRepository = messageRepository;
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -54,4 +57,12 @@ public class MessageController {
         messageRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/messages/{id}/privacy")
+    public ResponseEntity<Message> updateMessagePrivacy(@PathVariable Long id, @RequestParam boolean isPrivate) {
+        Message updatedMessage = messageService.updateMessageStatus(id, isPrivate);
+        return ResponseEntity.ok(updatedMessage);
+    }
+
+
 }

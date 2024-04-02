@@ -39,4 +39,15 @@ public class MessageService {
     public void deleteMessage(Long id) {
         messageRepository.deleteById(id);
     }
+
+    public Message updateMessageStatus(Long messageId, boolean isPrivate) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found with id " + messageId));
+        message.setStatusPrivate(isPrivate);
+        return messageRepository.save(message);
+    }
+
+
+
+
 }
