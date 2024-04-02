@@ -1,6 +1,7 @@
 package org.example.springboot_labb2.service;
 
 import org.example.springboot_labb2.entity.Message;
+import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -79,5 +81,34 @@ class MessageServiceTest {
 
         verify(messageRepository, times(1)).deleteById(1L);
     }
+
+    @Test
+    void testUpdateMessageStatus() {
+        Long messageId = 1L;
+        Message message = new Message();
+        message.setId(messageId);
+        message.setStatusPrivate(false);
+        when(messageRepository.findById(messageId)).thenReturn(Optional.of(message));
+        when(messageRepository.save(any(Message.class))).thenReturn(message);
+
+        Message result = messageService.updateMessageStatus(messageId, true);
+
+        assertThat(result.isStatusPrivate()).isTrue();
+        verify(messageRepository).save(message);
+    }
+
+    @Test
+    void testUpdateMessageStatusWhenMessageNotFound() {
+        // Arrange
+        Long messageId = 1L;
+        when(messageRepository.findById(messageId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            messageService.updateMessageStatus(messageId, true);
+        });
+    }
+
+
 
 }
