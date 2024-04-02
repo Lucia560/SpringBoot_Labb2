@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+
 import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
+class UserControllerTest {
 
     @Mock
     private UserRepository userRepository;
@@ -39,7 +40,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getAllUsers_ShouldReturnUserList() throws Exception {
+    void getAllUsers_ShouldReturnUserList() throws Exception {
         when(userRepository.findAll()).thenReturn(Arrays.asList(new User(), new User()));
 
         mockMvc.perform(get("/api/users"))
@@ -48,7 +49,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getUserById_WhenUserExists_ShouldReturnUser() throws Exception {
+    void getUserById_WhenUserExists_ShouldReturnUser() throws Exception {
         Long userId = 1L;
         User user = new User();
         user.setId(userId);
@@ -60,7 +61,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getUserById_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
+    void getUserById_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
@@ -69,7 +70,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUser_ShouldCreateUserAndReturnCreatedUser() throws Exception {
+    void createUser_ShouldCreateUserAndReturnCreatedUser() throws Exception {
         User user = new User();
         user.setUsername("newUser");
         when(userRepository.save(any(User.class))).thenReturn(user);
@@ -83,7 +84,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser_WhenUserExists_ShouldUpdateUserAndReturnIt() throws Exception {
+    void updateUser_WhenUserExists_ShouldUpdateUserAndReturnIt() throws Exception {
         Long userId = 1L;
         User existingUser = new User();
         existingUser.setId(userId);
@@ -99,7 +100,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
+    void updateUser_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
         Long userId = 1L;
         User updateUser = new User();
         updateUser.setUsername("nonExistentUser");
@@ -112,7 +113,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void deleteUser_WhenUserExists_ShouldDeleteUserAndReturnNoContent() throws Exception {
+    void deleteUser_WhenUserExists_ShouldDeleteUserAndReturnNoContent() throws Exception {
         Long userId = 1L;
         when(userRepository.existsById(userId)).thenReturn(true);
         doNothing().when(userRepository).deleteById(userId);
@@ -122,7 +123,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void deleteUser_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
+    void deleteUser_WhenUserDoesNotExist_ShouldReturnNotFound() throws Exception {
         Long userId = 1L;
         when(userRepository.existsById(userId)).thenReturn(false);
 

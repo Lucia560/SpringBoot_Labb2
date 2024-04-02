@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.*;
 
 
 import static org.mockito.ArgumentMatchers.any;
+
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.MessageRepository;
@@ -46,7 +47,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void getAllMessages_ShouldReturnMessageList() throws Exception {
+    void getAllMessages_ShouldReturnMessageList() throws Exception {
         when(messageRepository.findAll()).thenReturn(Arrays.asList(new Message(), new Message()));
 
         mockMvc.perform(get("/api/messages"))
@@ -55,7 +56,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void getMessageById_WhenMessageExists_ShouldReturnMessage() throws Exception {
+    void getMessageById_WhenMessageExists_ShouldReturnMessage() throws Exception {
         Long messageId = 1L;
         Message message = new Message();
         message.setId(messageId);
@@ -67,7 +68,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void getMessageById_WhenMessageDoesNotExist_ShouldReturnNotFound() throws Exception {
+    void getMessageById_WhenMessageDoesNotExist_ShouldReturnNotFound() throws Exception {
         Long messageId = 1L;
         when(messageRepository.findById(messageId)).thenReturn(Optional.empty());
 
@@ -99,7 +100,7 @@ public class MessageControllerTest {
 
 
     @Test
-    public void whenCreateMessage_thenStatus201() throws Exception {
+    void whenCreateMessage_thenStatus201() throws Exception {
         Message newMessage = new Message();
         newMessage.setTitle("New Title");
         newMessage.setContent("New Content");
@@ -124,7 +125,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void givenMessageToUpdate_whenMessageExists_thenStatus200() throws Exception {
+    void givenMessageToUpdate_whenMessageExists_thenStatus200() throws Exception {
         Long existingId = 1L;
         Message existingMessage = new Message();
         existingMessage.setId(existingId);
@@ -144,7 +145,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void givenMessageToUpdate_whenMessageDoesNotExist_thenStatus404() throws Exception {
+    void givenMessageToUpdate_whenMessageDoesNotExist_thenStatus404() throws Exception {
         Long nonExistingId = 2L;
         Message updatedMessage = new Message();
         updatedMessage.setTitle("Updated Title");
@@ -159,7 +160,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void givenMessageIdToDelete_whenMessageExists_thenStatus204() throws Exception {
+    void givenMessageIdToDelete_whenMessageExists_thenStatus204() throws Exception {
         Long existingId = 1L;
 
         when(messageRepository.existsById(existingId)).thenReturn(true);
@@ -170,7 +171,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void givenMessageIdToDelete_whenMessageDoesNotExist_thenStatus404() throws Exception {
+    void givenMessageIdToDelete_whenMessageDoesNotExist_thenStatus404() throws Exception {
         Long nonExistingId = 2L;
 
         when(messageRepository.existsById(nonExistingId)).thenReturn(false);
