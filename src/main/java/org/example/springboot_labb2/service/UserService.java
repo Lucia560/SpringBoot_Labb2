@@ -1,11 +1,10 @@
 package org.example.springboot_labb2.service;
 
-import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.entity.User;
+import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

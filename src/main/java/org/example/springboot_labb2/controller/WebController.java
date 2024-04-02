@@ -2,7 +2,6 @@ package org.example.springboot_labb2.controller;
 
 
 import org.example.springboot_labb2.entity.User;
-import org.example.springboot_labb2.repository.UserRepository;
 import org.example.springboot_labb2.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
