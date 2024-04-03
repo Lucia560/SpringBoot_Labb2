@@ -4,9 +4,12 @@ import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.service.UserService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.net.URI;
 import java.util.List;
@@ -26,16 +29,22 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+                .peek(user -> user.setUsername(HtmlUtils.htmlEscape(user.getUsername())))
+                .toList();
+
+        //return userRepository.findAll();  Check it out after merging of tester and migration!!!!
     }
 
     @GetMapping("/{id}")
+    @Cacheable("user")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @CacheEvict(value = "allUsers", allEntries = true)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
         return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);

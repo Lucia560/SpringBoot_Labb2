@@ -3,6 +3,7 @@ package org.example.springboot_labb2.service;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    @Cacheable("allUsers")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
