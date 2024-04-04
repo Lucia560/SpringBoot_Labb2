@@ -55,24 +55,59 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .profile-label {
+            margin-right: 20px;
+            font-weight: normal;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: auto;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 25px;
+            left: 5px;
+            font-size: 34px;
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+<a href="#" class="back-arrow">&larr;</a> <!-- Tom länk, men den ska till huvudsidan -->
+<div>
+    <a href="http://localhost:8080/web/users?lang=en">English</a>
+    <a href="http://localhost:8080/web/users?lang=sv">Svenska</a>
+</div>
 <div class="container">
     <h2>Edit User Profile</h2>
     <form action="/users/{username}/update" method="post" enctype="multipart/form-data">
-        <label for="profileName">Profile Name:</label>
-        <input type="text" id="profileName" name="profileName" th:value="${user.profileName}" required>
-
-        <label for="profilePicture">Profile Picture:</label>
+        <label for="profileName">Username:</label>
+        <input type="text" id="profileName" name="profileName" th:value="${username}" required>
+        <!-- Detta ska senare implementeras med thymeleaf -->
+        <div class="profile-info">
+            <div class="profile-label">Profile Picture:</div>
+            <img class="profile-picture" src="defaultprofile.jpg" alt="Default Profile Picture">
+        </div>
+        <br>
+        <label for="profilePicture">Upload new Profile Picture:</label>
         <input type="file" id="profilePicture" name="profilePicture">
-        <img class="profile-picture" th:src="@{/images/default-userprofile.jpg}" alt="Profile Picture">
 
-        <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" th:value="${user.fullName}" required>
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" th:value="${fullname}" required>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" th:value="${user.email}" required>
+        <input type="email" id="email" name="email" th:value="${email}" required>
 
         <input type="submit" value="Save Changes">
     </form>
