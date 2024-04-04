@@ -24,6 +24,14 @@ public class MessageService {
         return messageRepository.findById(id);
     }
 
+    public void saveMessage(Message message) {
+        messageRepository.save(message);
+    }
+
+    public void deleteMessage(Long id) {
+        messageRepository.deleteById(id);
+    }
+
     public Message createMessage(Message message) {
         return messageRepository.save(message);
     }
@@ -36,18 +44,10 @@ public class MessageService {
         throw new ResourceNotFoundException("Message with id " + id + " not found");
     }
 
-    public void deleteMessage(Long id) {
-        messageRepository.deleteById(id);
-    }
-
     public Message updateMessageStatus(Long messageId, boolean isPrivate) {
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message not found with id " + messageId));
         message.setStatusPrivate(isPrivate);
         return messageRepository.save(message);
     }
-
-
-
-
 }
