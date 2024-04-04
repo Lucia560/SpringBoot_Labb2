@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping
-    @CacheEvict(value = "allUsers", allEntries = true)
+   @CacheEvict(value = "allUsers", allEntries = true)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
         return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);

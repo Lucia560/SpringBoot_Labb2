@@ -4,6 +4,8 @@ import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,6 +75,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
+    public List <User> getPage(int p,int i){
+      return userRepository.findUserBy(p,i);
+    }
 
 }
