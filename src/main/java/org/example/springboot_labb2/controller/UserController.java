@@ -1,9 +1,15 @@
 package org.example.springboot_labb2.controller;
 
+import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.example.springboot_labb2.entity.User;
+import org.example.springboot_labb2.service.UserService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.net.URI;
 import java.util.List;
@@ -14,23 +20,31 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+                .peek(user -> user.setUsername(HtmlUtils.htmlEscape(user.getUsername())))
+                .toList();
+
+        //return userRepository.findAll();  Check it out after merging of tester and migration!!!!
     }
 
     @GetMapping("/{id}")
+    @Cacheable("user")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @CacheEvict(value = "allUsers", allEntries = true)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
         return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);
@@ -54,4 +68,15 @@ public class UserController {
         userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{username}/edit")
+    public ResponseEntity<User> updateProfile(@PathVariable String username, @RequestBody User updatedUser) {
+        try {
+            User user = userService.updateUserByUsername(username, updatedUser);
+            return ResponseEntity.ok(user);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }
