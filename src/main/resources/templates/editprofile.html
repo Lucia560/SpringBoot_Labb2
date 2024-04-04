@@ -66,6 +66,7 @@
 
         <label for="profilePicture">Profile Picture:</label>
         <input type="file" id="profilePicture" name="profilePicture">
+        <img class="profile-picture" th:src="@{/images/default-userprofile.jpg}" alt="Profile Picture">
 
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" th:value="${user.fullName}" required>
