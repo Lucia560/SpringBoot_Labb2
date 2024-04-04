@@ -1,26 +1,32 @@
 package org.example.springboot_labb2.controller;
 
-
+import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
+import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequestMapping("/web")
 public class WebController {
 
     private final UserService userService;
+    private final MessageService messageService;
 
-    public WebController( UserService userService) {
+    public WebController( UserService userService, MessageService messageService) {
         this.userService = userService;
+        this.messageService = messageService;
     }
 
-    //Users
     @GetMapping("users")
     public String users(Model model){
         var users= userService.getPage(0,10);
@@ -37,6 +43,7 @@ public class WebController {
         return "edit-user-profile";
     }
 
+
     @GetMapping("users/nextpage")
     public String loadPages(Model model, @RequestParam (defaultValue = "1") String page){
        var users= userService.getPage(0,10);
@@ -45,10 +52,24 @@ public class WebController {
        model.addAttribute("users",users);
        return "users-nextpage";
 
+
+    @PostMapping("/messages/new")
+    public String createMessage(@ModelAttribute("message") Message message) {
+        messageService.saveMessage(message);
+        return "redirect:/web/messages";
     }
 
+    @PostMapping("/messages/{id}/delete")
+    public String deleteMessage(@PathVariable Long id) {
+        messageService.deleteMessage(id);
+        return "redirect:/web/messages";
 
+    }
 
-
-
+    @PostMapping("/messages/{id}/edit")
+    public String editMessage(@PathVariable Long id, @ModelAttribute("message") Message message) {
+        message.setId(id);
+        messageService.saveMessage(message);
+        return "redirect:/web/messages";
+    }
 }
