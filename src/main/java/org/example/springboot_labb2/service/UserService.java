@@ -74,5 +74,7 @@ public class UserService {
     }
 
 
-
+    public List<User> getPage(int p, int i) {
+     return userRepository.findUserBy(p,i);
+    }
 }

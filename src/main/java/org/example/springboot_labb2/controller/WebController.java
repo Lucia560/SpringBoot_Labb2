@@ -22,9 +22,18 @@ public class WebController {
 
     @GetMapping("users")
     public String users(Model model){
-        var users= userService.getAllUsers().stream().map(User::getUsername).toList();
+        var users = userService.getPage(0,10);
+        model.addAttribute("nextpage",users.getLast().getId());
         model.addAttribute("usersNames",users);
         return "users";
+    }
+    @GetMapping("users/nextpage")
+    public String loadPages(Model model, @RequestParam (defaultValue = "1") String page) {
+        int p = Integer.parseInt(page);
+        var users = userService.getPage(p,10);
+        model.addAttribute("nextpage", users.getLast().getId());
+        model.addAttribute("users", users);
+        return "users-nextpage";
     }
 
     @GetMapping("/users/{username}/edit")
