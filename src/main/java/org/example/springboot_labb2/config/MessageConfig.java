@@ -1,4 +1,4 @@
-package org.example.springboot_labb2;
+package org.example.springboot_labb2.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
