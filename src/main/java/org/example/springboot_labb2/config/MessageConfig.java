@@ -36,7 +36,7 @@ public class MessageConfig implements WebMvcConfigurer {
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor
                 = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("language");
+        localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
 
