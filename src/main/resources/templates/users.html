@@ -9,7 +9,7 @@
     <a href="http://localhost:8080/web/users?lang=en">English</a>
     <a href="http://localhost:8080/web/users?lang=sv">Svenska</a>
 </div>
-<h1 th:text="'Users'">User List</h1>
+<h1 th:text="#{users}">User List</h1>
 <ul>
     <li th:each="username : ${usersNames}" th:text="${username}">Username will be displayed here</li>
 </ul>
