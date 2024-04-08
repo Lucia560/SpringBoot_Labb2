@@ -7,12 +7,19 @@
 <body>
 <div th:include="menu.html"/>
 <table>
-    <tbody>
+    <caption>Messages</caption>
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Content
+        </th>
+    </tr>
     <tr th:each="message: ${messages}">
         <td th:text="${message.title}" />
         <td th:text="${message.content}" />
     </tr>
-    </tbody>
 </table>
 
 </body>
