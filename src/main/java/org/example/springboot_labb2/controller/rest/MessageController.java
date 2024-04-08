@@ -1,4 +1,4 @@
-package org.example.springboot_labb2.controller;
+package org.example.springboot_labb2.controller.rest;
 
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.entity.Message;
