@@ -42,6 +42,12 @@ public class WebController {
         model.addAttribute("user", user);
         return "edit-user-profile";
     }
+    @GetMapping("messages")
+    public String messages(Model model) {
+        var messages = messageService.getAllMessages();
+        model.addAttribute("messages", messages);
+        return "messages";
+    }
 
     @PostMapping("/messages/new")
     public String createMessage(@ModelAttribute("message") Message message) {
