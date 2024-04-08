@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:include="head.html">
     <meta charset="UTF-8">
     <title>Users</title>
 </head>
 <body>
-<div>
-    <a href="http://localhost:8080/web/users?lang=en">English</a>
-    <a href="http://localhost:8080/web/users?lang=sv">Svenska</a>
-</div>
+<div th:include="menu.html"/>
+
 <h1 th:text="#{users}">User List</h1>
 <ul>
     <li th:each="username : ${usersNames}" th:text="${username}">Username will be displayed here</li>

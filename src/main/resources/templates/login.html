@@ -63,10 +63,7 @@
     </style>
 </head>
 <body>
-<div>
-    <a href="login?lang=en">English</a>
-    <a href="login?lang=sv">Svenska</a>
-</div>
+<div th:include="menu.html"/>
 <div class="container">
     <h2 th:text="#{user.login.heading}">Log in</h2>
     <form id="login-form">
