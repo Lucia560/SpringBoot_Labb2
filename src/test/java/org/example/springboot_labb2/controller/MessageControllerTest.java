@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.*;
 
 import static org.mockito.ArgumentMatchers.any;
 
+import org.example.springboot_labb2.controller.rest.MessageController;
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.MessageRepository;

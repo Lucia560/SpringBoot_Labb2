@@ -1,4 +1,4 @@
-package org.example.springboot_labb2.controller;
+package org.example.springboot_labb2.controller.web;
 
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.UserRepository;

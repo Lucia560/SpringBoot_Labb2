@@ -1,5 +1,6 @@
 package org.example.springboot_labb2.controller;
 
+import org.example.springboot_labb2.controller.web.RegistrationController;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
