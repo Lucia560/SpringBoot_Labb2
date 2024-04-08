@@ -20,6 +20,10 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
+    public List<Message> getPublicMessages(){
+        return messageRepository.findAllByStatusPrivateIsFalse();
+    }
+
     public Optional<Message> getMessageById(Long id) {
         return messageRepository.findById(id);
     }
