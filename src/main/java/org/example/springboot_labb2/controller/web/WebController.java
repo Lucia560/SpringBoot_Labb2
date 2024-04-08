@@ -4,9 +4,13 @@ import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/web")
@@ -43,8 +47,14 @@ public class WebController {
         return "edit-user-profile";
     }
     @GetMapping("messages")
-    public String messages(Model model) {
-        var messages = messageService.getAllMessages();
+    public String messages(Model model, @AuthenticationPrincipal OAuth2User user) {
+        List<Message> messages;
+        if(user==null){
+            messages=messageService.getPublicMessages();
+        } else{
+            messages=messageService.getAllMessages();
+        }
+
         model.addAttribute("messages", messages);
         return "messages";
     }

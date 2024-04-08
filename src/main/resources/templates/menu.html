@@ -1,7 +1,13 @@
 <ul class="menu">
-    <!--When authentication is in place menu options will depend on if you are logged in or not -->
     <li class="menu"><a href="/web/messages">Home</a></li>
-    <li class="menu"><a href="/login">Log in</a></li>
+    <li class="menu" th:unless="${menu.authenticated}"><a href="/login">Log in</a></li>
+    <li class="menu" th:if="${menu.authenticated}"><a href="#new message">New message</a></li>
+    <li class="menu" th:if="${menu.authenticated}"><a href="#settings">Settings</a></li>
+    <li class="menu" th:if="${menu.authenticated}"><a href="#logout" onclick="logout()">Log out</a></li>
+    <li class="menu" th:if="${menu.authenticated}">
+        <span th:text="${menu.username}"></span>
+    </li>
+
     <li class="menu">
         <a href="?lang=en">English</a>
         <a href="?lang=sv">Svenska</a>
