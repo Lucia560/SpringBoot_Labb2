@@ -7,6 +7,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends ListPagingAndSortingRepository <User,Long>, ListCrudRepository <User,Long> {
     List<User> findByUsername(String username);
@@ -18,4 +19,6 @@ public interface UserRepository extends ListPagingAndSortingRepository <User,Lon
             select * from user where user.userid > ?1 limit ?2
             """, nativeQuery = true)
     List<User> findUserBy(long cursor, int pageSize);
+
+    Optional<User> findByGithubLogin(String githubLogin);
 }

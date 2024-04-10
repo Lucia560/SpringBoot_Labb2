@@ -17,6 +17,15 @@ public class User implements Serializable {
     private String nameSurname;
     private String email;
     private String profilePictureUrl;
+    private String githubLogin;
+
+    public String getGithubLogin() {
+        return githubLogin;
+    }
+
+    public void setGithubLogin(String githubLogin) {
+        this.githubLogin = githubLogin;
+    }
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userid")

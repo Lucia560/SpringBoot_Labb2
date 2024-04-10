@@ -1,0 +1,1 @@
+ALTER TABLE user ADD COLUMN github_login VARCHAR (255);
