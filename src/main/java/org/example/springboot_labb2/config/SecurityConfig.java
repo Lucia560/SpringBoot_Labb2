@@ -22,7 +22,7 @@ public class SecurityConfig {
             auth.anyRequest().authenticated();
         }).oauth2Login(oauth2 -> oauth2.defaultSuccessUrl("/web/messages").permitAll()
                 .userInfoEndpoint(e -> e.userService(userService)))
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()).build();
+                .build();
     }
 
 }
