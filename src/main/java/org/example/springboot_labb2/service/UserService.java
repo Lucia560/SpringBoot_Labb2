@@ -31,11 +31,13 @@ public class UserService {
     }
 
     public User updateUser(Long id, User user) {
-        if (userRepository.existsById(id)) {
-            user.setId(id);
-            return userRepository.save(user);
-        }
-        throw new ResourceNotFoundException("User with id " + id + " not found");
+        return userRepository.findById(id).map(dbUser ->{
+            dbUser.setNameSurname(user.getNameSurname());
+            dbUser.setEmail(user.getEmail());
+            dbUser.setUsername(user.getUsername());
+            return userRepository.save(dbUser);
+
+        }).orElseThrow(()-> new ResourceNotFoundException("User with id " + id + " not found"));
     }
 
     public void deleteUser(Long id) {
@@ -76,5 +78,9 @@ public class UserService {
 
     public List<User> getPage(int p, int i) {
      return userRepository.findUserBy(p,i);
+    }
+
+    public User findByGithubLogin(String login) {
+        return userRepository.findByGithubLogin(login).orElseThrow(()-> new ResourceNotFoundException("User with login " + login + " not found"));
     }
 }

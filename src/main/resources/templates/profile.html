@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
+<head th:include="head.html">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User Profile</title>
@@ -84,17 +84,12 @@
     </style>
 </head>
 <body>
-<a href="main.html" class="back-arrow">&larr;</a> <!-- Tom länk, men den ska till huvudsidan -->
-<div>
-    <a href="http://localhost:8080/web/users?lang=en">English</a>
-    <a href="http://localhost:8080/web/users?lang=sv">Svenska</a>
-</div>
+<div th:include="menu.html"/>
 <div class="container">
     <h2>Edit User Profile</h2>
-    <form action="/users/{username}/update" method="post" enctype="multipart/form-data">
-        <label for="profileName">Username:</label>
-        <input type="text" id="profileName" name="profileName" th:value="${username}" required>
-        <!-- Detta ska senare implementeras med thymeleaf -->
+    <form th:action="@{/web/profile}" method="post" enctype="multipart/form-data" th:object="${user}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" th:value="*{username}" required>
         <div class="profile-info">
             <div class="profile-label">Profile Picture:</div>
             <img class="profile-picture" src="defaultprofile.jpg" alt="Default Profile Picture">
@@ -104,10 +99,10 @@
         <input type="file" id="profilePicture" name="profilePicture">
 
         <label for="fullname">Full Name:</label>
-        <input type="text" id="fullname" name="fullname" th:value="${fullname}" required>
+        <input type="text" id="fullname" name="nameSurname" th:value="*{nameSurname}" required>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" th:value="${email}" required>
+        <input type="email" id="email" name="email" th:value="*{email}" required>
 
         <input type="submit" value="Save Changes">
     </form>
