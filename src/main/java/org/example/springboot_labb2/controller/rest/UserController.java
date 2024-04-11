@@ -1,5 +1,8 @@
 package org.example.springboot_labb2.controller.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.UserRepository;
 import org.example.springboot_labb2.entity.User;
@@ -17,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Controller", description = "API endpoints för användarhantering")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -28,22 +32,24 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "Hämta alla användare")
     public List<User> getAllUsers() {
         return userRepository.findAll().stream()
                 .peek(user -> user.setUsername(HtmlUtils.htmlEscape(user.getUsername())))
                 .toList();
-
-
     }
 
     @GetMapping("/{id}")
     @Cacheable("user")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    @Operation(summary = "Hämta användare efter specifik ID")
+    public ResponseEntity<User> getUserById(
+            @Parameter(description = "Användar-ID", required = true) @PathVariable Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @Operation(summary = "Skapa en ny användare")
     @CacheEvict(value = "allUsers", allEntries = true)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
@@ -51,7 +57,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    @Operation(summary = "Uppdatera användare")
+    public ResponseEntity<User> updateUser(
+            @Parameter(description = "Användar-ID", required = true) @PathVariable Long id, @RequestBody User user) {
         if (!userRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -61,7 +69,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    @Operation(summary = "Ta bort användare")
+    public ResponseEntity<Void> deleteUser(
+            @Parameter(description = "Användar-ID", required = true) @PathVariable Long id) {
         if (!userRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -70,7 +80,9 @@ public class UserController {
     }
 
     @PutMapping("/{username}/edit")
-    public ResponseEntity<User> updateProfile(@PathVariable String username, @RequestBody User updatedUser) {
+    @Operation(summary = "Uppdatera användarprofil")
+    public ResponseEntity<User> updateProfile(
+            @Parameter(description = "Användarnamn", required = true) @PathVariable String username, @RequestBody User updatedUser) {
         try {
             User user = userService.updateUserByUsername(username, updatedUser);
             return ResponseEntity.ok(user);
@@ -78,5 +90,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
 }
