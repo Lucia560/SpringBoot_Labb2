@@ -25,7 +25,7 @@ public class WebController {
     }
 
     @GetMapping("users")
-    public String users(Model model) {
+    public String getUsers(Model model) {
         var users = userService.getPage(0, 10);
         model.addAttribute("nextpage", users.getLast().getId());
         model.addAttribute("usersNames", users);
@@ -33,7 +33,7 @@ public class WebController {
     }
 
     @GetMapping("users/nextpage")
-    public String loadPages(Model model, @RequestParam(defaultValue = "1") String page) {
+    public String loadNextPage(Model model, @RequestParam(defaultValue = "1") String page) {
         int p = Integer.parseInt(page);
         var users = userService.getPage(p, 10);
         model.addAttribute("nextpage", users.getLast().getId());
@@ -49,43 +49,51 @@ public class WebController {
     }
 
     @GetMapping("messages")
-    public String messages(Model model, @AuthenticationPrincipal OAuth2User user) {
+    public String getMessages(Model model, @AuthenticationPrincipal OAuth2User user) {
         List<Message> messages;
         if (user == null) {
             messages = messageService.getPublicMessages();
         } else {
             messages = messageService.getAllMessages();
         }
-
         model.addAttribute("messages", messages);
         return "messages";
     }
 
-
-
     @PostMapping("/messages/new")
-    public String createMessage(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("message") Message message) {
-        User user = userService.findByGithubLogin(principal.getAttribute("login"));
-        messageService.createMessage(message, user);
-        return "redirect:/web/messages";
+    public String createNewMessage(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("message") Message message) {
+        try {
+            User user = userService.findByGithubLogin(principal.getAttribute("login"));
+            messageService.createMessage(message, user);
+            return "redirect:/web/messages";
+        } catch (Exception e) {
+            return "error";
+        }
     }
 
     @PostMapping("/messages/{id}/delete")
-    public String deleteMessage(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id) {
-        User user = userService.findByGithubLogin(principal.getAttribute("login"));
-        Message message = messageService.getMessageById(id).orElseThrow();
-        if (message.getUser().equals(user)) {
-            messageService.deleteMessage(id);
+    public String deleteMessageById(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id) {
+        try {
+            User user = userService.findByGithubLogin(principal.getAttribute("login"));
+            Message message = messageService.getMessageById(id).orElseThrow();
+            if (message.getUser().equals(user)) {
+                messageService.deleteMessage(id);
+            }
+            return "redirect:/web/messages";
+        } catch (Exception e) {
+            return "error";
         }
-        return "redirect:/web/messages";
     }
 
     @PostMapping("/messages/{id}/edit")
-    public String editMessage(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id, @ModelAttribute("message") Message messageDetails) {
-        String githubLogin = principal.getAttribute("login");
-        User user = userService.findByGithubLogin(githubLogin);
-        messageService.updateMessage(id, messageDetails, user);
-        return "redirect:/web/messages";
+    public String updateMessageById(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id, @ModelAttribute("message") Message messageDetails) {
+        try {
+            String githubLogin = principal.getAttribute("login");
+            User user = userService.findByGithubLogin(githubLogin);
+            messageService.updateMessage(id, messageDetails, user);
+            return "redirect:/web/messages";
+        } catch (Exception e) {
+            return "error";
+        }
     }
-
 }
