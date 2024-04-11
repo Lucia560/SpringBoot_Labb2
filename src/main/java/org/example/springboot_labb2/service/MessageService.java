@@ -1,5 +1,6 @@
 package org.example.springboot_labb2.service;
 
+import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.repository.MessageRepository;
@@ -36,11 +37,16 @@ public class MessageService {
         messageRepository.deleteById(id);
     }
 
-    public Message createMessage(Message message) {
+    /*public Message createMessage(Message message) {
+        return messageRepository.save(message);
+    }*/
+
+    public Message createMessage(Message message, User user) {
+        message.setUser(user); // Set the user
         return messageRepository.save(message);
     }
 
-    public Message updateMessage(Long id, Message message) {
+    public Message updateMessage(Long id, Message message,User user) {
         if (messageRepository.existsById(id)) {
             message.setId(id);
             return messageRepository.save(message);

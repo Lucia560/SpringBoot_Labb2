@@ -19,22 +19,23 @@ public class WebController {
     private final UserService userService;
     private final MessageService messageService;
 
-    public WebController( UserService userService, MessageService messageService) {
+    public WebController(UserService userService, MessageService messageService) {
         this.userService = userService;
         this.messageService = messageService;
     }
 
     @GetMapping("users")
-    public String users(Model model){
-        var users = userService.getPage(0,10);
-        model.addAttribute("nextpage",users.getLast().getId());
-        model.addAttribute("usersNames",users);
+    public String users(Model model) {
+        var users = userService.getPage(0, 10);
+        model.addAttribute("nextpage", users.getLast().getId());
+        model.addAttribute("usersNames", users);
         return "users";
     }
+
     @GetMapping("users/nextpage")
-    public String loadPages(Model model, @RequestParam (defaultValue = "1") String page) {
+    public String loadPages(Model model, @RequestParam(defaultValue = "1") String page) {
         int p = Integer.parseInt(page);
-        var users = userService.getPage(p,10);
+        var users = userService.getPage(p, 10);
         model.addAttribute("nextpage", users.getLast().getId());
         model.addAttribute("users", users);
         return "users-nextpage";
@@ -46,35 +47,45 @@ public class WebController {
         model.addAttribute("user", user);
         return "edit-user-profile";
     }
+
     @GetMapping("messages")
     public String messages(Model model, @AuthenticationPrincipal OAuth2User user) {
         List<Message> messages;
-        if(user==null){
-            messages=messageService.getPublicMessages();
-        } else{
-            messages=messageService.getAllMessages();
+        if (user == null) {
+            messages = messageService.getPublicMessages();
+        } else {
+            messages = messageService.getAllMessages();
         }
 
         model.addAttribute("messages", messages);
         return "messages";
     }
 
+
+
     @PostMapping("/messages/new")
-    public String createMessage(@ModelAttribute("message") Message message) {
-        messageService.saveMessage(message);
+    public String createMessage(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("message") Message message) {
+        User user = userService.findByGithubLogin(principal.getAttribute("login"));
+        messageService.createMessage(message, user);
         return "redirect:/web/messages";
     }
 
     @PostMapping("/messages/{id}/delete")
-    public String deleteMessage(@PathVariable Long id) {
-        messageService.deleteMessage(id);
+    public String deleteMessage(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id) {
+        User user = userService.findByGithubLogin(principal.getAttribute("login"));
+        Message message = messageService.getMessageById(id).orElseThrow();
+        if (message.getUser().equals(user)) {
+            messageService.deleteMessage(id);
+        }
         return "redirect:/web/messages";
     }
 
     @PostMapping("/messages/{id}/edit")
-    public String editMessage(@PathVariable Long id, @ModelAttribute("message") Message message) {
-        message.setId(id);
-        messageService.saveMessage(message);
+    public String editMessage(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id, @ModelAttribute("message") Message messageDetails) {
+        String githubLogin = principal.getAttribute("login");
+        User user = userService.findByGithubLogin(githubLogin);
+        messageService.updateMessage(id, messageDetails, user);
         return "redirect:/web/messages";
     }
+
 }

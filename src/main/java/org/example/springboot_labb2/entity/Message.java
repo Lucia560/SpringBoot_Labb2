@@ -19,7 +19,7 @@ public class Message {
     private String content;
     private boolean statusPrivate= false;
 
-    @ManyToOne(cascade = CascadeType.PERSIST) // vi kanske måste ta bort detta
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
