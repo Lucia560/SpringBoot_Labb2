@@ -61,11 +61,7 @@ public class WebController {
         return "messages";
     }
 
-   /* @PostMapping("/messages/new")
-    public String createMessage(@ModelAttribute("message") Message message) {
-        messageService.saveMessage(message);
-        return "redirect:/web/messages";
-    }*/
+
 
     @PostMapping("/messages/new")
     public String createMessage(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("message") Message message) {
@@ -73,19 +69,6 @@ public class WebController {
         messageService.createMessage(message, user);
         return "redirect:/web/messages";
     }
-
-   /* @PostMapping("/messages/{id}/delete")
-    public String deleteMessage(@PathVariable Long id) {
-        messageService.deleteMessage(id);
-        return "redirect:/web/messages";
-    }
-
-    @PostMapping("/messages/{id}/edit")
-    public String editMessage(@PathVariable Long id, @ModelAttribute("message") Message message) {
-        message.setId(id);
-        messageService.saveMessage(message);
-        return "redirect:/web/messages";
-    }*/
 
     @PostMapping("/messages/{id}/delete")
     public String deleteMessage(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id) {

@@ -33,7 +33,7 @@ public class UserController {
                 .peek(user -> user.setUsername(HtmlUtils.htmlEscape(user.getUsername())))
                 .toList();
 
-        //return userRepository.findAll();  Check it out after merging of tester and migration!!!!
+
     }
 
     @GetMapping("/{id}")
