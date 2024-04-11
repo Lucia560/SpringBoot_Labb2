@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         testuser.setRole("USER");
         testuser.setNameSurname("Patrickson");
         testuser.setEmail("mirabella@example.com");
-        testuser.setProfilePictureUrl("https://example.com/image.jpg");
+        testuser.setProfilePicture("https://example.com/image.jpg".getBytes());
         userRepository.save(testuser);
         List<User> resultList = userRepository.findByUsername(testuser.getUsername());
 
@@ -47,7 +47,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         assertThat(foundUser.getRole()).isEqualTo(testuser.getRole());
         assertThat(foundUser.getNameSurname()).isEqualTo(testuser.getNameSurname());
         assertThat(foundUser.getEmail()).isEqualTo(testuser.getEmail());
-        assertThat(foundUser.getProfilePictureUrl()).isEqualTo(testuser.getProfilePictureUrl());
+        assertThat(foundUser.getProfilePicture()).isEqualTo(testuser.getProfilePicture());
 
 
     }
@@ -59,7 +59,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         adminUser.setRole("ADMIN");
         adminUser.setNameSurname("John Nickel");
         adminUser.setEmail("john@example.com");
-        adminUser.setProfilePictureUrl("https://example.com/admin.jpg");
+        adminUser.setProfilePicture("https://example.com/admin.jpg".getBytes());
         userRepository.save(adminUser);
 
         var regularUser1 = new User();
@@ -67,7 +67,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         regularUser1.setRole("USER");
         regularUser1.setNameSurname("Venn");
         regularUser1.setEmail("normie@example.com");
-        regularUser1.setProfilePictureUrl("https://example.com/user1.jpg");
+        regularUser1.setProfilePicture("https://example.com/user1.jpg".getBytes());
         userRepository.save(regularUser1);
 
         User regularUser2 = new User();
@@ -75,7 +75,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         regularUser2.setRole("USER");
         regularUser2.setNameSurname("Smith");
         regularUser2.setEmail("anna@example.com");
-        regularUser2.setProfilePictureUrl("https://example.com/user2.jpg");
+        regularUser2.setProfilePicture("https://example.com/user2.jpg".getBytes());
         userRepository.save(regularUser2);
 
 

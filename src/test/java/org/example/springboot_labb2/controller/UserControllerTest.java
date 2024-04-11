@@ -17,6 +17,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -42,7 +43,11 @@ class UserControllerTest {
 
     @Test
     void getAllUsers_ShouldReturnUserList() throws Exception {
-        when(userRepository.findAll()).thenReturn(Arrays.asList(new User(), new User()));
+        List<User> list = Arrays.asList(new User(), new User())
+                .stream()
+                .peek(user -> user.setUsername(""))
+                .toList();
+        when(userRepository.findAll()).thenReturn(list);
 
         mockMvc.perform(get("/api/users"))
                 .andExpect(status().isOk())

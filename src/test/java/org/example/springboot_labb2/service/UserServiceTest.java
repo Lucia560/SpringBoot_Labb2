@@ -68,7 +68,7 @@ class UserServiceTest {
 
     @Test
     void updateUser_ExistingUser_ShouldReturnUpdatedUser() {
-        when(userRepository.existsById(1L)).thenReturn(true);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         user.setEmail("newemail@example.com");
@@ -80,7 +80,7 @@ class UserServiceTest {
     @Test
     void updateUser_NonExistingUser_ShouldThrowException() {
         Long inexistentId = 2L;
-        when(userRepository.existsById(inexistentId)).thenReturn(false);
+        when(userRepository.findById(inexistentId)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(ResourceNotFoundException.class,
                 () -> attemptUpdateUser(inexistentId));
@@ -140,7 +140,7 @@ class UserServiceTest {
         updatedUserDetails.setUsername("newTestUser");
         updatedUserDetails.setNameSurname("New NameSurname");
         updatedUserDetails.setEmail("newemail@example.com");
-        updatedUserDetails.setProfilePictureUrl("new-profile-pic-url");
+        updatedUserDetails.setProfilePicture("new-profile-pic-url".getBytes());
 
         when(userRepository.findByUsername(oldUsername)).thenReturn(Collections.singletonList(originalUser));
         when(userRepository.findByUsername(updatedUserDetails.getUsername())).thenReturn(Collections.emptyList());
@@ -151,7 +151,7 @@ class UserServiceTest {
         assertThat(updatedUser.getUsername()).isEqualTo(updatedUserDetails.getUsername());
         assertThat(updatedUser.getNameSurname()).isEqualTo(updatedUserDetails.getNameSurname());
         assertThat(updatedUser.getEmail()).isEqualTo(updatedUserDetails.getEmail());
-        assertThat(updatedUser.getProfilePictureUrl()).isEqualTo(updatedUserDetails.getProfilePictureUrl());
+        assertThat(updatedUser.getProfilePicture()).isEqualTo(updatedUserDetails.getProfilePicture());
     }
 
     @Test

@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import org.example.springboot_labb2.controller.rest.MessageController;
 import org.example.springboot_labb2.entity.Message;
+import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.service.MessageService;
@@ -83,10 +84,11 @@ public class MessageControllerTest {
         Message updateInfo = new Message();
         updateInfo.setTitle("Updated Title");
         updateInfo.setContent("Updated content");
+        User user = new User();
         when(messageRepository.existsById(nonExistingId)).thenReturn(false);
 
         assertThrows(ResourceNotFoundException.class, () -> {
-            messageService.updateMessage(nonExistingId, updateInfo);
+            messageService.updateMessage(nonExistingId, updateInfo, user);
         });
     }
 
@@ -106,7 +108,7 @@ public class MessageControllerTest {
         newMessage.setTitle("New Title");
         newMessage.setContent("New Content");
 
-        when(messageService.createMessage(any(Message.class))).thenReturn(newMessage);
+        when(messageService.createMessage(any(Message.class), any(User.class))).thenReturn(newMessage);
 
         mockMvc.perform(post("/api/messages")
                         .contentType(MediaType.APPLICATION_JSON)
