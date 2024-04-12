@@ -108,7 +108,7 @@ public class MessageControllerTest {
         newMessage.setTitle("New Title");
         newMessage.setContent("New Content");
 
-        when(messageService.createMessage(any(Message.class), any(User.class))).thenReturn(newMessage);
+        when(messageRepository.save(any(Message.class))).thenReturn(newMessage);
 
         mockMvc.perform(post("/api/messages")
                         .contentType(MediaType.APPLICATION_JSON)
