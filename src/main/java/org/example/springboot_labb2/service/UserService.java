@@ -35,6 +35,7 @@ public class UserService {
             dbUser.setNameSurname(user.getNameSurname());
             dbUser.setEmail(user.getEmail());
             dbUser.setUsername(user.getUsername());
+            dbUser.setProfilePicture(user.getProfilePicture());
             return userRepository.save(dbUser);
 
         }).orElseThrow(()-> new ResourceNotFoundException("User with id " + id + " not found"));
@@ -71,7 +72,7 @@ public class UserService {
         user.setUsername(updatedUserDetails.getUsername());
         user.setNameSurname(updatedUserDetails.getNameSurname());
         user.setEmail(updatedUserDetails.getEmail());
-        user.setProfilePictureUrl(updatedUserDetails.getProfilePictureUrl());
+        user.setProfilePicture(updatedUserDetails.getProfilePicture());
         return userRepository.save(user);
     }
 
@@ -82,5 +83,9 @@ public class UserService {
 
     public User findByGithubLogin(String login) {
         return userRepository.findByGithubLogin(login).orElseThrow(()-> new ResourceNotFoundException("User with login " + login + " not found"));
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 }
