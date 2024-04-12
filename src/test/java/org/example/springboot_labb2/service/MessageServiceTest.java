@@ -1,6 +1,7 @@
 package org.example.springboot_labb2.service;
 
 import org.example.springboot_labb2.entity.Message;
+import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,21 +54,24 @@ class MessageServiceTest {
     @Test
     void testCreateMessage() {
         Message message = new Message();
+        User user = new User(); // Create a User object
         when(messageRepository.save(any(Message.class))).thenReturn(message);
 
-        Message result = messageService.createMessage(message);
+        Message result = messageService.createMessage(message, user); // Pass the User object
 
         assertThat(result).isSameAs(message);
     }
+
 
     @Test
     void testUpdateMessage() {
         Message existingMessage = new Message();
         Long id = 1L;
+        User user = new User(); // Create a User object
         when(messageRepository.save(any(Message.class))).thenReturn(existingMessage);
         when(messageRepository.existsById(id)).thenReturn(true);
 
-        Message updatedMessage = messageService.updateMessage(id, existingMessage);
+        Message updatedMessage = messageService.updateMessage(id, existingMessage, user); // Pass the User object
 
         assertThat(updatedMessage).isNotNull();
     }
