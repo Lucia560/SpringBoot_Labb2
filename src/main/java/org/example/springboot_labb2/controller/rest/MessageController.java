@@ -25,18 +25,8 @@ public class MessageController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Message>> getAllMessages() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-
-        if (isAuthenticated) {
-            List<Message> messages = messageRepository.findAll();
-            return ResponseEntity.ok(messages);
-        } else {
-
-            List<Message> publicMessages = messageRepository.findAllByStatusPrivateIsFalse();
-            return ResponseEntity.ok(publicMessages);
-        }
+    public List<Message> getAllMessages() {
+        return messageRepository.findAll();
     }
 
     @GetMapping("/{id}")
