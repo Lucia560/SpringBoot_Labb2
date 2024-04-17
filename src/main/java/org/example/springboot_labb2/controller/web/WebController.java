@@ -19,12 +19,10 @@ public class WebController {
 
     private final UserService userService;
     private final MessageService messageService;
-    private final MessageRepository messageRepository;
 
-    public WebController(UserService userService, MessageService messageService, MessageRepository messageRepository) {
+    public WebController(UserService userService, MessageService messageService) {
         this.userService = userService;
         this.messageService = messageService;
-        this.messageRepository = messageRepository;
     }
 
     @GetMapping("users")
@@ -98,11 +96,5 @@ public class WebController {
         } catch (Exception e) {
             return "error";
         }
-    }
-    @GetMapping("/main")
-    public String showMainPage(Model model) {
-        List<Message> publicMessages = messageRepository.findAllByStatusPrivateIsFalse();
-        model.addAttribute("messages", publicMessages);
-        return "main";
     }
 }
