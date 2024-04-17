@@ -1,7 +1,7 @@
 <ul class="menu">
     <li class="menu"><a href="/web/messages">Home</a></li>
     <li class="menu" th:unless="${menu.authenticated}"><a href="/login">Log in</a></li>
-    <li class="menu" th:if="${menu.authenticated}"><a href="#new message">New message</a></li>
+    <li class="menu" th:if="${menu.authenticated}"><a href="/web/messages/new">New message</a></li>
     <li class="menu" th:if="${menu.authenticated}"><a href="#settings">Settings</a></li>
     <li class="menu" th:if="${menu.authenticated}"><a href="#logout" onclick="logout()">Log out</a></li>
     <li class="menu" th:if="${menu.authenticated}">

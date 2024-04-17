@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
@@ -16,9 +18,13 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 class MessageServiceTest {
+
+    @Mock
+    private UserService userService;
 
     @Mock
     private MessageRepository messageRepository;
@@ -54,10 +60,10 @@ class MessageServiceTest {
     @Test
     void testCreateMessage() {
         Message message = new Message();
-        User user = new User(); // Create a User object
+        OAuth2User principal = new DefaultOAuth2User(null, Map.of("login", "kalle"),"login");
         when(messageRepository.save(any(Message.class))).thenReturn(message);
 
-        Message result = messageService.createMessage(message, user); // Pass the User object
+        Message result = messageService.createMessage(message, principal); // Pass the User object
 
         assertThat(result).isSameAs(message);
     }

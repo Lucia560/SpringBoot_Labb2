@@ -60,11 +60,16 @@ public class WebController {
         return "messages";
     }
 
+    @GetMapping("/messages/new")
+    public String newMessage(Model model) {
+        model.addAttribute("message", new Message());
+        return "createMessage";
+    }
+
     @PostMapping("/messages/new")
     public String createNewMessage(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("message") Message message) {
         try {
-            User user = userService.findByGithubLogin(principal.getAttribute("login"));
-            messageService.createMessage(message, user);
+            messageService.createMessage(message, principal);
             return "redirect:/web/messages";
         } catch (Exception e) {
             return "error";
