@@ -3,7 +3,7 @@
     <li class="menu" th:unless="${menu.authenticated}"><a href="/login">Log in</a></li>
     <li class="menu" th:if="${menu.authenticated}"><a href="#new message">New message</a></li>
     <li class="menu" th:if="${menu.authenticated}"><a href="#settings">Settings</a></li>
-    <li class="menu" th:if="${menu.authenticated}"><a href="#logout" onclick="logout()">Log out</a></li>
+    <li class="menu" th:if="${menu.authenticated}"><a href="/web/main" onclick="logout()">Log out</a></li>
     <li class="menu" th:if="${menu.authenticated}">
         <a href="/web/profile" th:text="${menu.username}"></a>
     </li>
@@ -12,6 +12,5 @@
         <a href="?lang=en">English</a>
         <a href="?lang=sv">Svenska</a>
     </li>
-
 </ul>
 

@@ -2,6 +2,7 @@ package org.example.springboot_labb2.controller.web;
 
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
+import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +19,12 @@ public class WebController {
 
     private final UserService userService;
     private final MessageService messageService;
+    private final MessageRepository messageRepository;
 
-    public WebController(UserService userService, MessageService messageService) {
+    public WebController(UserService userService, MessageService messageService, MessageRepository messageRepository) {
         this.userService = userService;
         this.messageService = messageService;
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping("users")
@@ -95,5 +98,11 @@ public class WebController {
         } catch (Exception e) {
             return "error";
         }
+    }
+    @GetMapping("/main")
+    public String showMainPage(Model model) {
+        List<Message> publicMessages = messageRepository.findAllByStatusPrivateIsFalse();
+        model.addAttribute("messages", publicMessages);
+        return "main";
     }
 }

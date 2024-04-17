@@ -4,6 +4,8 @@ import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.service.MessageService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,14 +19,24 @@ public class MessageController {
     private final MessageRepository messageRepository;
     private final MessageService messageService;
 
-    public MessageController(MessageRepository messageRepository,MessageService messageService) {
+    public MessageController(MessageRepository messageRepository, MessageService messageService) {
         this.messageRepository = messageRepository;
         this.messageService = messageService;
     }
 
     @GetMapping
-    public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+    public ResponseEntity<List<Message>> getAllMessages() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+
+        if (isAuthenticated) {
+            List<Message> messages = messageRepository.findAll();
+            return ResponseEntity.ok(messages);
+        } else {
+
+            List<Message> publicMessages = messageRepository.findAllByStatusPrivateIsFalse();
+            return ResponseEntity.ok(publicMessages);
+        }
     }
 
     @GetMapping("/{id}")

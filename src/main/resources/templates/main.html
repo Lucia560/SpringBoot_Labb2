@@ -2,81 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: underline;
-            margin: 0 10px;
-        }
-        .container {
-            margin: 20px;
-        }
-        .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .option {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 10px;
-            text-align: center;
-            width: 200px;
-        }
-        .language-links {
-            padding: 10px;
-        }
-    </style>
+    <title>Messages</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/loadMoreMessages.js}"></script>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <nav>
-    <div class="language-links">
-        <a th:href="">English</a> <!-- Lämnar dessa länkar tomma -->
-        <a th:href="">Svenska</a>
-    </div>
-    <div>
-        <span> <!-- Här får man lägga in en th:if för o se om usern är autheticated, då visas logout och logged in as -->
-            Logged in as: <strong th:text="#{username}"></strong>
-            <br>
-            <a href="login.html">Logout</a>
-        </span>
-    </div>
+<h1 class="welcome">Welcome to our SpringBootApplication</h1>
+    <a href="/login" class="login-btn">Log In</a>
 </nav>
-<div class="container">
-    <div class="options">
-        <div class="option">
-            <h3 th:text="#{message.options.messages}">Message Options</h3>
-            <p th:text="#{message.options.manage}">View and manage messages</p>
-            <a href="#">Go to Messages</a>
-        </div>
-        <div class="option">
-            <h3 th:text="#{profile.options.profile}">Profile Options</h3>
-            <p th:text="#{profile.options.edit}">View and edit your profile</p>
-            <a href="profile.html">Go to your Profile</a>
-        </div>
-        <div class="option">
-            <h3 th:text="#{user.options.view}">User Options</h3>
-            <p th:text="#{user.options.view_other}">View other users</p>
-            <a href="users.html">Go to Users</a>
-        </div>
-    </div>
-</div>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Author</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody id="messageTableBody">
+    <tr th:each="message : ${messages}">
+        <td th:text="${message.title}" />
+        <td th:text="${message.content}" />
+        <td>
+            <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
+        </td>
+        <td th:text="${message.date}" />
+    </tr>
+    </tbody>
+</table>
+<input type="hidden" id="currentPage" value="0">
+<button class="load" onclick="loadMoreMessages()">Load More Messages</button>
 </body>
 </html>
