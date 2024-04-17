@@ -18,7 +18,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/web/messages", "/webjars/**", "/", "/error").permitAll();
+            auth.requestMatchers("/web/messages", "/webjars/**", "/", "/error", "/*.css", "/*.js").permitAll();
             auth.anyRequest().authenticated();
         }).oauth2Login(oauth2 -> oauth2.defaultSuccessUrl("/web/messages").permitAll()
                 .userInfoEndpoint(e -> e.userService(userService)))
