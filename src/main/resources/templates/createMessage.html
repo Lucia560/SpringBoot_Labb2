@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:include="head.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<div th:include="menu.html"/>
+<div class="container">
+    <h2>Create message</h2>
+    <form th:action="@{/web/messages/new}" method="post" th:object="${message}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" th:value="*{title}" required>
+        <label for="content">Content</label>
+        <input type="text" id="content" name="content" th:value="*{content}" required>
+        <label for="statusPrivate">Status Private:</label>
+        <input type="checkbox" id="statusPrivate" name="statusPrivate" th:value="*{statusPrivate}">
+
+
+        <input type="submit" value="Create">
+    </form>
+</div>
+</body>
+</html>

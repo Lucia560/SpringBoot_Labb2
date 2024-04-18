@@ -4,7 +4,11 @@ import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.exception.ResourceNotFoundException;
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.repository.MessageRepository;
+import org.example.springboot_labb2.repository.UserRepository;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +16,11 @@ import java.util.Optional;
 public class MessageService {
 
     private final MessageRepository messageRepository;
+    private final UserService userService;
 
-    public MessageService(MessageRepository messageRepository) {
+    public MessageService(MessageRepository messageRepository, UserService userService) {
         this.messageRepository = messageRepository;
+        this.userService = userService;
     }
 
     public List<Message> getAllMessages() {
@@ -37,11 +43,13 @@ public class MessageService {
         messageRepository.deleteById(id);
     }
 
-    /*public Message createMessage(Message message) {
+    /*public Message createMessage.html(Message message) {
         return messageRepository.save(message);
     }*/
 
-    public Message createMessage(Message message, User user) {
+    @Transactional
+    public Message createMessage(Message message, OAuth2User principal) {
+        User user = userService.findByGithubLogin(principal.getAttribute("login"));
         message.setUser(user); // Set the user
         return messageRepository.save(message);
     }
