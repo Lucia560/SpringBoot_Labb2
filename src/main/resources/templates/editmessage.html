@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head.html">
+    <meta charset="UTF-8">
+    <title>Edit Message</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div th:include="menu.html"/>
+<form th:action="@{/web/messages/{id}/edit(id=${message.id})}" method="post" th:object="${message}">
+    <input type="hidden" th:field="*{id}"/>
+    <label>Title:</label>
+    <input type="text" th:field="*{title}"/><br/>
+    <label>Content:</label>
+    <textarea th:field="*{content}"></textarea><br/>
+    <button type="submit">Save</button>
+</form>
+<div class="checkbox-label">
+    <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
+    <label for="statusPrivate">Private</label>
+</div>
+</body>
+</html>

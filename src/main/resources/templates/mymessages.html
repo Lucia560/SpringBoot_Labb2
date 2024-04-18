@@ -12,6 +12,9 @@
     <tr>
         <th>Title</th>
         <th>Content</th>
+        <th>Edit Message</th>
+        <th>Author</th>
+        <th>Privacy</th>
         <th>Last Edited By</th>
         <th>Last Edited At</th>
     </tr>
@@ -20,6 +23,15 @@
     <tr th:each="message : ${messages}">
         <td th:text="${message.title}"></td>
         <td th:text="${message.content}"></td>
+        <td>
+            <a th:href="@{/web/messages/{id}/edit(id=${message.id})}">Edit</a>
+        </td>
+        <td>
+            <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
+        </td>
+        <td>
+            <span th:text="${message.statusPrivate ? 'Private' : 'Public'}"></span> <!-- Display 'Private' or 'Public' based on the status -->
+        </td>
     </tr>
     </tbody>
 </table>
