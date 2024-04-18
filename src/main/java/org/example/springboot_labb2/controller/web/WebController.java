@@ -2,6 +2,7 @@ package org.example.springboot_labb2.controller.web;
 
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
+import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

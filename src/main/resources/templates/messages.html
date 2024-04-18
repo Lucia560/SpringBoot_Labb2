@@ -3,24 +3,32 @@
 <head th:include="head.html">
     <meta charset="UTF-8">
     <title>Messages</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/loadMoreMessages.js}"></script>
 </head>
 <body>
 <div th:include="menu.html"/>
 <table>
-    <caption>Messages</caption>
+    <thead>
     <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Content
-        </th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Author</th>
+        <th>Date</th>
     </tr>
-    <tr th:each="message: ${messages}">
+    </thead>
+    <tbody id="messageTableBody">
+    <tr th:each="message : ${messages}">
         <td th:text="${message.title}" />
         <td th:text="${message.content}" />
+        <td>
+            <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
+        </td>
+        <td th:text="${message.date}" />
     </tr>
+    </tbody>
 </table>
-
+<input type="hidden" id="currentPage" value="0">
+<button id="load" onclick="loadMoreMessages()">Load More Messages</button>
 </body>
 </html>
