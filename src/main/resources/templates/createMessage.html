@@ -3,6 +3,16 @@
 <head th:include="head.html">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,9 +24,11 @@
         <input type="text" id="title" name="title" th:value="*{title}" required>
         <label for="content">Content</label>
         <input type="text" id="content" name="content" th:value="*{content}" required>
-        <label for="statusPrivate">Status Private:</label>
-        <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
 
+        <div class="checkbox-label">
+            <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
+            <label for="statusPrivate">Private</label>
+        </div>
 
         <input type="submit" value="Create">
     </form>
