@@ -20,9 +20,6 @@
     <tr th:each="message : ${messages}">
         <td th:text="${message.title}"></td>
         <td th:text="${message.content}"></td>
-        <td th:text="${message.lastEditedBy}"></td>
-        <td th:text="${message.lastEditedAt}"></td>
-        <td><a th:href="">Edit</a></td>
     </tr>
     </tbody>
 </table>

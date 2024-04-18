@@ -105,15 +105,7 @@ public class WebController {
         }
     }
     @GetMapping("/mymessages")
-    public String getUserMessages(Model model, @AuthenticationPrincipal OAuth2User user) {
-        List<Message> messages;
-        String username = user.getName();
-        messages = messageRepository.findByUserUsername(username);
-        model.addAttribute("messages", messages);
-        return "mymessages";
-    }
-    @GetMapping("/web/mymessages")
-    public String displayCurrentUserMessages(Model model, OAuth2User principal) {
+    public String displayCurrentUserMessages(Model model,@AuthenticationPrincipal OAuth2User principal) {
         List<Message> userMessages = messageService.getMessagesForCurrentUser(principal);
         model.addAttribute("messages", userMessages);
         return "mymessages";
