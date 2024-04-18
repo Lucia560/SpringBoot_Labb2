@@ -19,10 +19,12 @@ public class WebController {
 
     private final UserService userService;
     private final MessageService messageService;
+    private final MessageRepository messageRepository;
 
-    public WebController(UserService userService, MessageService messageService) {
+    public WebController(UserService userService, MessageService messageService, MessageRepository messageRepository) {
         this.userService = userService;
         this.messageService = messageService;
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping("users")
@@ -101,5 +103,19 @@ public class WebController {
         } catch (Exception e) {
             return "error";
         }
+    }
+    @GetMapping("/mymessages")
+    public String getUserMessages(Model model, @AuthenticationPrincipal OAuth2User user) {
+        List<Message> messages;
+        String username = user.getName();
+        messages = messageRepository.findByUserUsername(username);
+        model.addAttribute("messages", messages);
+        return "mymessages";
+    }
+    @GetMapping("/web/mymessages")
+    public String displayCurrentUserMessages(Model model, OAuth2User principal) {
+        List<Message> userMessages = messageService.getMessagesForCurrentUser(principal);
+        model.addAttribute("messages", userMessages);
+        return "mymessages";
     }
 }
