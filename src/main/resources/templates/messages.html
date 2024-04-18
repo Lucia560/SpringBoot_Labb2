@@ -15,6 +15,7 @@
         <th>Content</th>
         <th>Author</th>
         <th>Date</th>
+        <th>Privacy</th>
     </tr>
     </thead>
     <tbody id="messageTableBody">
@@ -25,6 +26,9 @@
             <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
         </td>
         <td th:text="${message.date}" />
+        <td>
+            <span th:text="${message.statusPrivate ? 'Private' : 'Public'}"></span> <!-- Display 'Private' or 'Public' based on the status -->
+        </td>
     </tr>
     </tbody>
 </table>

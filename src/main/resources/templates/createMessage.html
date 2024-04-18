@@ -15,7 +15,7 @@
         <label for="content">Content</label>
         <input type="text" id="content" name="content" th:value="*{content}" required>
         <label for="statusPrivate">Status Private:</label>
-        <input type="checkbox" id="statusPrivate" name="statusPrivate" th:value="*{statusPrivate}">
+        <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
 
 
         <input type="submit" value="Create">
