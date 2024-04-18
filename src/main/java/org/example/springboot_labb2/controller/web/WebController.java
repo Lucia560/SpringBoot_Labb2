@@ -4,6 +4,7 @@ import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.service.MessageService;
+import org.example.springboot_labb2.service.TranslateService;
 import org.example.springboot_labb2.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/web")
@@ -19,10 +21,12 @@ public class WebController {
 
     private final UserService userService;
     private final MessageService messageService;
+    private final TranslateService translateService;
 
-    public WebController(UserService userService, MessageService messageService) {
+    public WebController(UserService userService, MessageService messageService, TranslateService translateService) {
         this.userService = userService;
         this.messageService = messageService;
+        this.translateService = translateService;
     }
 
     @GetMapping("users")
@@ -102,4 +106,21 @@ public class WebController {
             return "error";
         }
     }
+
+    @GetMapping("/messages/{id}/translate")
+    public String translateAndDisplayMessage(@PathVariable Long id, Model model) {
+        Message message = messageService.getMessageById(id)
+                .orElseThrow(() -> new NoSuchElementException("Message not found with id " + id));
+        String originalContent = message.getContent();
+        String translatedContent = String.valueOf(messageService.translateMessage(message));
+        message.setContent(translatedContent);
+        messageService.saveMessage(message);
+
+        model.addAttribute("originalMessage",originalContent);
+        model.addAttribute("translatedMessage", translatedContent);
+        return "translation_messages";
+    }
+
+
+
 }

@@ -64,5 +64,19 @@ public class MessageController {
         return ResponseEntity.ok(updatedMessage);
     }
 
+    @PostMapping("/translate/{id}")
+    public ResponseEntity<Message> translateMessage(@PathVariable Long id) {
+        return messageRepository.findById(id)
+                .map(message -> {
+                    Message translatedMessage = messageService.translateMessage(message);
+                    messageRepository.save(translatedMessage);
+                    return ResponseEntity.ok(translatedMessage);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+
+
 
 }
