@@ -18,7 +18,7 @@ public class Message {
     private Long id;
     private String title;
     private String content;
-    private boolean statusPrivate= false;
+    private boolean statusPrivate = false;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
