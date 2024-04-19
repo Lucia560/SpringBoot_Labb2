@@ -9,7 +9,7 @@
         <a href="/web/messages/new" th:text="#{message.options.create}">New message</a>
     </li>
     <li class="menu" th:if="${menu.authenticated}">
-        <a href="mymessages" th:text="#{user.option.my.messages}">My Messages</a>
+        <a href="/web/mymessages" th:text="#{user.option.my.messages}">My Messages</a>
     </li>
     <li class="menu" th:if="${menu.authenticated}">
         <a href="#logout" onclick="logout()" th:text="#{sign_out.button.label}">Log out</a>
