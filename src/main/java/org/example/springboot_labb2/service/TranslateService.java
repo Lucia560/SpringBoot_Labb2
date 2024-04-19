@@ -27,19 +27,23 @@ public class TranslateService {
 
     @Retryable
     public String translateMessage(String textToTranslate) {
-        String startLang = "sv";
-        String finalLang = "en";
-        String jsonString = String.format("{\"q\":\"%s\",\"source\":\"%s\",\"target\":\"%s\"}", textToTranslate, startLang, finalLang);
+         String targetLang = "en";
 
-        return webClient.post()
-                .uri("http://localhost:5000/translate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(jsonString)
-                .retrieve()
-                .bodyToMono(String.class)
-                .map(response -> response.replaceAll("\"", ""))
-                .block();
+         if (!detectMessageLanguage("en")) {
+            String jsonString = String.format("{\"q\":\"%s\",\"source\":\"%s\",\"target\":\"%s\"}", textToTranslate, targetLang);
+
+
+            return webClient.post()
+                    .uri("http://localhost:5000/translate")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .bodyValue(jsonString)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .map(response -> response.replaceAll("\"", ""))
+                    .block();
+        }
+        return textToTranslate;
+
     }
-
 }

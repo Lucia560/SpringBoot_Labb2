@@ -2,7 +2,6 @@ package org.example.springboot_labb2.controller.web;
 
 import org.example.springboot_labb2.entity.Message;
 import org.example.springboot_labb2.entity.User;
-import org.example.springboot_labb2.repository.MessageRepository;
 import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.TranslateService;
 import org.example.springboot_labb2.service.UserService;
@@ -114,7 +113,6 @@ public class WebController {
         String originalContent = message.getContent();
         String translatedContent = String.valueOf(translateService.translateMessage(originalContent));
         message.setContent(translatedContent);
-        //messageService.saveMessage(message);
 
         model.addAttribute("originalMessage",originalContent);
         model.addAttribute("translatedMessage", translatedContent);
