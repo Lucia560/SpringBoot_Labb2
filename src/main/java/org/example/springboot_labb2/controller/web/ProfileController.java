@@ -2,7 +2,6 @@ package org.example.springboot_labb2.controller.web;
 
 import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

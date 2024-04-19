@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
  */
 @ControllerAdvice
 public class MenuControllerAdvice {
-    record MenuModel(boolean authenticated, String username) {
+    public record MenuModel(boolean authenticated, String username) {
     }
     @Autowired
     UserService userService;
