@@ -107,17 +107,24 @@ public class WebController {
     }
 
     @PostMapping("/messages/{id}/edit")
-    public String updateMessageById(@PathVariable Long id, @ModelAttribute("message") Message messageDetails, Model model, User user) {
+    public String updateMessageById(
+            @PathVariable Long id,
+            @ModelAttribute("message") Message messageDetails) {
+
         try {
             Optional<Message> existingMessageOptional = messageService.getMessageById(id);
+
             if (existingMessageOptional.isEmpty()) {
                 return "error";
             }
 
             Message existingMessage = existingMessageOptional.get();
-            messageDetails.setUser(existingMessage.getUser());
+
+            existingMessage.setTitle(messageDetails.getTitle());
+            existingMessage.setContent(messageDetails.getContent());
             existingMessage.setStatusPrivate(messageDetails.isStatusPrivate());
-            messageService.updateMessage(id, existingMessage,user);
+
+            messageService.saveMessage(existingMessage);
 
             return "redirect:/web/mymessages";
         } catch (Exception e) {
