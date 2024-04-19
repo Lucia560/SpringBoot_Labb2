@@ -2,9 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="head.html">
     <meta charset="UTF-8">
-    <title>Messages</title>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/loadMoreMessages.js}"></script>
+    <title>My Messages</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <div th:include="menu.html"/>
@@ -13,26 +12,28 @@
     <tr>
         <th>Title</th>
         <th>Content</th>
+        <th>Edit Message</th>
         <th>Author</th>
-        <th>Date</th>
         <th>Privacy</th>
+        <th>Last Edited By</th>
+        <th>Last Edited At</th>
     </tr>
     </thead>
-    <tbody id="messageTableBody">
+    <tbody>
     <tr th:each="message : ${messages}">
-        <td th:text="${message.title}" />
-        <td th:text="${message.content}" />
+        <td th:text="${message.title}"></td>
+        <td th:text="${message.content}"></td>
+        <td>
+            <a th:href="@{/web/messages/{id}/edit(id=${message.id})}">Edit</a>
+        </td>
         <td>
             <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
         </td>
-        <td th:text="${message.date}" />
         <td>
             <span th:text="${message.statusPrivate ? 'Private' : 'Public'}"></span> <!-- Display 'Private' or 'Public' based on the status -->
         </td>
     </tr>
     </tbody>
 </table>
-<input type="hidden" id="currentPage" value="0">
-<button id="load" onclick="loadMoreMessages()">Load More Messages</button>
 </body>
 </html>

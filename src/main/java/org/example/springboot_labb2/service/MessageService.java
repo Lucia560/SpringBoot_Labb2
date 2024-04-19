@@ -70,4 +70,13 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
+
+    public List<Message> getMessagesForCurrentUser(OAuth2User principal) {
+
+        String githubLogin = principal.getAttribute("login");
+        User user = userService.findByGithubLogin(githubLogin);
+
+        return messageRepository.findByUserUsername(user.getUsername());
+    }
+
 }

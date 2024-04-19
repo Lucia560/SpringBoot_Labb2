@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
 @Controller
 @RequestMapping("/web")
 public class WebController {
@@ -26,7 +27,7 @@ public class WebController {
         this.userService = userService;
         this.messageService = messageService;
         this.translateService = translateService;
-    }
+
 
     @GetMapping("users")
     public String getUsers(Model model) {
@@ -94,17 +95,37 @@ public class WebController {
         }
     }
 
+    @GetMapping("/messages/{id}/edit")
+    public String editMessage(@PathVariable Long id, Model model) {
+        Optional<Message> messageOptional = messageService.getMessageById(id);
+
+        if (messageOptional.isPresent()) {
+            model.addAttribute("message", messageOptional.get());
+            return "editMessage";
+        } else {
+            return "error";
+        }
+    }
+
     @PostMapping("/messages/{id}/edit")
-    public String updateMessageById(@AuthenticationPrincipal OAuth2User principal, @PathVariable Long id, @ModelAttribute("message") Message messageDetails) {
+    public String updateMessageById(@PathVariable Long id, @ModelAttribute("message") Message messageDetails, Model model, User user) {
         try {
-            String githubLogin = principal.getAttribute("login");
-            User user = userService.findByGithubLogin(githubLogin);
-            messageService.updateMessage(id, messageDetails, user);
-            return "redirect:/web/messages";
+            Optional<Message> existingMessageOptional = messageService.getMessageById(id);
+            if (existingMessageOptional.isEmpty()) {
+                return "error";
+            }
+
+            Message existingMessage = existingMessageOptional.get();
+            messageDetails.setUser(existingMessage.getUser());
+            existingMessage.setStatusPrivate(messageDetails.isStatusPrivate());
+            messageService.updateMessage(id, existingMessage,user);
+
+            return "redirect:/web/mymessages";
         } catch (Exception e) {
             return "error";
         }
     }
+
 
     @GetMapping("/messages/{id}/translate")
     public String translateAndDisplayMessage(@PathVariable Long id, Model model) {
@@ -120,5 +141,10 @@ public class WebController {
     }
 
 
-
+   @GetMapping("/mymessages")
+    public String displayCurrentUserMessages(Model model,@AuthenticationPrincipal OAuth2User principal) {
+        List<Message> userMessages = messageService.getMessagesForCurrentUser(principal);
+        model.addAttribute("messages", userMessages);
+        return "mymessages";
+    }
 }

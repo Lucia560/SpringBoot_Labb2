@@ -1,9 +1,19 @@
 <ul class="menu">
-    <li class="menu"><a href="/web/messages">Home</a></li>
-    <li class="menu" th:unless="${menu.authenticated}"><a href="/login">Log in</a></li>
-    <li class="menu" th:if="${menu.authenticated}"><a href="/web/messages/new">New message</a></li>
-    <li class="menu" th:if="${menu.authenticated}"><a href="#settings">Settings</a></li>
-    <li class="menu" th:if="${menu.authenticated}"><a href="#logout" onclick="logout()">Log out</a></li>
+    <li class="menu">
+        <a href="/web/messages" th:text="#{home.header}">Home</a>
+    </li>
+    <li class="menu" th:unless="${menu.authenticated}">
+        <a href="/login" th:text="#{sign_in.button.label}">Log in</a>
+    </li>
+    <li class="menu" th:if="${menu.authenticated}">
+        <a href="/web/messages/new" th:text="#{message.options.create}">New message</a>
+    </li>
+    <li class="menu" th:if="${menu.authenticated}">
+        <a href="mymessages" th:text="#{user.option.my.messages}">My Messages</a>
+    </li>
+    <li class="menu" th:if="${menu.authenticated}">
+        <a href="#logout" onclick="logout()" th:text="#{sign_out.button.label}">Log out</a>
+    </li>
     <li class="menu" th:if="${menu.authenticated}">
         <a href="/web/profile" th:text="${menu.username}"></a>
     </li>
