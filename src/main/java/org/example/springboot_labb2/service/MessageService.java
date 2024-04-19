@@ -17,12 +17,12 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserService userService;
-    private final TranslateService translateService;
+    //private final TranslateService translateService;
 
-    public MessageService(MessageRepository messageRepository, UserService userService, TranslateService translateService) {
+    public MessageService(MessageRepository messageRepository, UserService userService ) {
         this.messageRepository = messageRepository;
         this.userService = userService;
-        this.translateService = translateService;
+        //this.translateService = translateService;
     }
 
     public List<Message> getAllMessages() {
@@ -70,16 +70,5 @@ public class MessageService {
         message.setStatusPrivate(isPrivate);
         return messageRepository.save(message);
     }
-    // translation
-    public Message translateMessage(Message message) {
-        String originalLang = String.valueOf(translateService.detectMessageLanguage(message.getContent()));
-        if (!"en".equals(originalLang)) {
-            String translatedText = translateService.translateMessage(message.getContent());
-            message.setContent(translatedText);
-        }
-        return message;
-    }
-
-
 
 }

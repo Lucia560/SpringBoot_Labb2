@@ -1,55 +1,45 @@
 package org.example.springboot_labb2.service;
 
+import org.springframework.http.MediaType;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-
-import java.util.Objects;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class TranslateService {
-    private final RestClient restClient;
+    private final WebClient webClient;
 
-    public TranslateService(RestClient restClient) {
-        this.restClient = restClient;
+    public TranslateService(WebClient webClient) {
+        this.webClient = webClient;
     }
-
 
     @Retryable
     public boolean detectMessageLanguage(String text) {
-        String responseBody = Objects.requireNonNull(restClient.post()
+        String responseBody = webClient.post()
                 .uri("http://localhost:5000/detect")
-                .contentType(APPLICATION_JSON)
-                .accept()
-                .body(text) // funkar?
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue("{\"text\":\"" + text + "\"}")
                 .retrieve()
-                .body(String.class));
-        return !responseBody.contains("\"en\"");
-
+                .bodyToMono(String.class)
+                .block();
+        return responseBody != null && responseBody.contains("\"en\"");
     }
-
 
     @Retryable
     public String translateMessage(String textToTranslate) {
         String startLang = "sv";
         String finalLang = "en";
+        String jsonString = String.format("{\"q\":\"%s\",\"source\":\"%s\",\"target\":\"%s\"}", textToTranslate, startLang, finalLang);
 
-        if (detectMessageLanguage(textToTranslate)) {
-            startLang = "sv";
-            finalLang = "en";
-        }
-
-        String jsonString = String
-                .format("{\"q\":\"%s\",\"source\":\"%s\",\"target\":\"%s\"}", textToTranslate, startLang, finalLang);
-
-        return Objects.requireNonNull(restClient.post()
-                        .uri("http://localhost:5000/translate")
-                        .contentType(APPLICATION_JSON)
-                        .accept()
-                        .body(jsonString)
-                        .retrieve()
-                        .body(String.class))
-                        .replaceAll("\"", "");
+        return webClient.post()
+                .uri("http://localhost:5000/translate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(jsonString)
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(response -> response.replaceAll("\"", ""))
+                .block();
     }
+
 }

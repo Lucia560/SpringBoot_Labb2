@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /**
@@ -26,9 +27,14 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
+   /* @Bean
     RestClient restClient() {
         return RestClient.create();
-    }
+    }*/
+   @Bean
+   public WebClient webClient() {
+       return WebClient.builder()
+               .build();
+   }
 
 }

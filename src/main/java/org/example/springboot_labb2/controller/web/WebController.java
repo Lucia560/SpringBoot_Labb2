@@ -112,9 +112,9 @@ public class WebController {
         Message message = messageService.getMessageById(id)
                 .orElseThrow(() -> new NoSuchElementException("Message not found with id " + id));
         String originalContent = message.getContent();
-        String translatedContent = String.valueOf(messageService.translateMessage(message));
+        String translatedContent = String.valueOf(translateService.translateMessage(originalContent));
         message.setContent(translatedContent);
-        messageService.saveMessage(message);
+        //messageService.saveMessage(message);
 
         model.addAttribute("originalMessage",originalContent);
         model.addAttribute("translatedMessage", translatedContent);
