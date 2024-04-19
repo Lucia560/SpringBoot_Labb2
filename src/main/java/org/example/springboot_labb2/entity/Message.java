@@ -2,6 +2,7 @@ package org.example.springboot_labb2.entity;
 
 
 import jakarta.persistence.*;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -17,7 +18,7 @@ public class Message {
     private Long id;
     private String title;
     private String content;
-    private boolean statusPrivate= false;
+    private boolean statusPrivate = false;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
@@ -75,6 +76,5 @@ public class Message {
     public void setStatusPrivate(boolean statusPrivate) {
         this.statusPrivate = statusPrivate;
     }
-
 
 }

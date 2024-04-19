@@ -63,6 +63,4 @@ public class MessageController {
         Message updatedMessage = messageService.updateMessageStatus(id, isPrivate);
         return ResponseEntity.ok(updatedMessage);
     }
-
-
 }
