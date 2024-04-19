@@ -13,11 +13,11 @@
     <input type="text" th:field="*{title}"/><br/>
     <label>Content:</label>
     <textarea th:field="*{content}"></textarea><br/>
+    <div class="checkbox-label">
+        <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
+        <label for="statusPrivate">Private</label>
+    </div>
     <button type="submit">Save</button>
 </form>
-<div class="checkbox-label">
-    <input type="checkbox" id="statusPrivate" name="statusPrivate" th:checked="${message.statusPrivate}">
-    <label for="statusPrivate">Private</label>
-</div>
 </body>
 </html>
