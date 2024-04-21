@@ -4,11 +4,9 @@ package org.example.springboot_labb2.controller.web;
  * @author Angela Gustafsson, anggus-1
  */
 import org.example.springboot_labb2.entity.Message;
-import org.example.springboot_labb2.entity.User;
 import org.example.springboot_labb2.service.MessageService;
 import org.example.springboot_labb2.service.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
