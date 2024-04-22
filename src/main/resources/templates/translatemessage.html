@@ -6,6 +6,8 @@
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/loadMoreMessages.js}"></script>
 </head>
+
+<div id="translatedMessage"></div>
 <body>
 <div th:include="menu.html"/>
 <table>
@@ -15,29 +17,19 @@
         <th>Content</th>
         <th>Author</th>
         <th>Date</th>
-        <th>Privacy</th>
-        <th>Translate</th>
     </tr>
     </thead>
     <tbody id="messageTableBody">
-    <tr th:each="message : ${messages}">
+    <tr>
         <td th:text="${message.title}" />
         <td th:text="${message.content}" />
         <td>
             <span th:if="${message.user != null}" th:text="${message.user.username}"></span>
         </td>
         <td th:text="${message.date}" />
-        <td>
-            <span th:text="${message.statusPrivate ? 'Private' : 'Public'}"></span> <!-- Display 'Private' or 'Public' based on the status -->
-        </td>
-        <td>
-            <a th:href="@{/web/translate/sv/{id}(id=${message.getId()})}">sv</a>
-            <a th:href="@{/web/translate/en/{id}(id=${message.getId()})}">en</a>
-        </td>
+
     </tr>
     </tbody>
 </table>
-<input type="hidden" id="currentPage" value="0">
-<button id="load" onclick="loadMoreMessages()">Load More Messages</button>
 </body>
 </html>
